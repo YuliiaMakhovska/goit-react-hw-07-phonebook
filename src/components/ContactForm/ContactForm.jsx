@@ -1,6 +1,5 @@
 import React from 'react';
 import * as Yup from 'yup';
-// import { FiPhone, FiUser } from "react-icons/fi";
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { FormStyled, FieldStyled, Label, Button } from './ContactForm.styled';
 import { Formik, ErrorMessage } from 'formik';
