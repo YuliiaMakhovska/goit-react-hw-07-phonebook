@@ -3,10 +3,9 @@ import * as Yup from 'yup';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { FormStyled, FieldStyled, Label, Button } from './ContactForm.styled';
 import { Formik, ErrorMessage } from 'formik';
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts } from 'redux/contactsSlice';
-import { getItems } from 'redux/selectors';
+import { selectItems } from 'redux/selectors';
+import { addContacts } from 'redux/operations';
 
 
 
@@ -20,13 +19,9 @@ const FormError = ({ name }) => {
 };
 
 const ContactForm = () => {
-  const contacts = useSelector(getItems)
+  const contacts = useSelector(selectItems)
   const dispatch = useDispatch();
 
-  const nameId = nanoid();
-  const numberId = nanoid();
-
-  
   const handleSubmit = (values, { resetForm }) => {
     let existName = false;
     if (contacts && contacts.length > 0) {
@@ -38,9 +33,9 @@ const ContactForm = () => {
 })
     }
     if (!existName) {
-      values.id = nanoid()
       dispatch(addContacts(values))
       resetForm();
+      Report.success('You added new contact')
     }
 
   };
@@ -55,7 +50,7 @@ const ContactForm = () => {
       onSubmit={handleSubmit}
     >
       <FormStyled>
-        <Label htmlFor={nameId}>
+        <Label htmlFor="name">
           Name
           <FieldStyled
             type="text"
@@ -67,7 +62,7 @@ const ContactForm = () => {
           <FormError FormError name="name" />
         </Label>
 
-        <Label htmlFor={numberId}>
+        <Label htmlFor="number">
           Number
           <FieldStyled
             type="tel"
